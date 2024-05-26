@@ -1,4 +1,4 @@
-#include "entrancewindow.h"
+#include "UIModule/entrancewindow.h"
 #include "AuthenticationModule/AuthenticationModule.h"
 
 #include <QApplication>

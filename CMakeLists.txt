@@ -18,9 +18,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        entrancewindow.cpp
-        entrancewindow.h
-        entrancewindow.ui
+        UIModule/entrancewindow.cpp
+        UIModule/entrancewindow.h
+        UIModule/entrancewindow.ui
         AuthenticationModule/AuthenticationModule.h
         AuthenticationModule/AuthenticationModule.cpp
         DataManagementModule/DataManagementModule.h
@@ -28,30 +28,19 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    message(STATUS "Used QT version is greater than 6, other parts of cmake is deleted!")
     qt_add_executable(UIModule
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET UIModule APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(UIModule SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(UIModule
-            ${PROJECT_SOURCES}
-        )
-    endif()
 endif()
 
 target_link_libraries(UIModule PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(UIModule PUBLIC sqlite3)
+target_include_directories(UIModule PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_subdirectory(test)
+
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

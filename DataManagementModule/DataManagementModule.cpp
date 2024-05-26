@@ -15,6 +15,7 @@ int DataManagementModule::InitializeDB(const std::string& db_loc)
     else
     {
         sqlite3_errmsg16(m_db);
+        return return_code;
     }
 }
 
