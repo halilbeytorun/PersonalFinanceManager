@@ -3,6 +3,8 @@
 file(GLOB_RECURSE test_source
     ${PROJECT_SOURCE_DIR}/test/*.cpp
     ${PROJECT_SOURCE_DIR}/test/*.h
+    ${PROJECT_SOURCE_DIR}/DataManagementModule/*.cpp
+    ${PROJECT_SOURCE_DIR}/DataManagementModule/*.h
 )
 
 
@@ -23,6 +25,7 @@ add_executable(${UNIT_NAME}TestTarget ${test_source})
 target_link_libraries(
 ${UNIT_NAME}TestTarget
   GTest::gtest_main
+  sqlite3
 )
 
 include(GoogleTest)

@@ -11,6 +11,7 @@ class DataManagementModule
 {
 public:
     int InitializeDB(const std::string&);
+    void InsertQuery();
     ~DataManagementModule();
 
 private:
