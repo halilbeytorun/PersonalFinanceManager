@@ -11,6 +11,9 @@ class DataManagementModule
 {
 public:
     int InitializeDB(const std::string&);
+    int CreateLoginTable();
+    int InsertLoginTable(const std::string& user_name, const std::string& passport);
+    int SelectRowLoginTable(const std::string& user_name, std::string& passport);
     void InsertQuery();
     ~DataManagementModule();
 
