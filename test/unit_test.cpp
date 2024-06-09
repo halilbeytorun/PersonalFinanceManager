@@ -33,8 +33,10 @@ TEST_F(ProxyClient, DataManagementModuleTest)
   return_code = test.SelectRowLoginTable(user_name, potantial_passport);
   ASSERT_EQ(passport, potantial_passport);
 
-
-
-
+  std::string wrong_user_name{"FALSE"};
+  std::string wrong_passport{"FALSE"};
+  std::string wrong_potantial_passport{};
+  return_code = test.SelectRowLoginTable(wrong_user_name, wrong_potantial_passport);
+  ASSERT_EQ(wrong_potantial_passport, std::string{});
 }
 
