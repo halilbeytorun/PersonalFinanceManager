@@ -31,3 +31,20 @@ void EntranceWindow::on_pushButtonRegister_clicked()
     this->show();
 }
 
+
+void EntranceWindow::on_pushButtonOk_clicked()
+{
+    const std::string user_name = ui->lineEditUserName->text().toStdString();
+    std::string passport{};
+    m_DataManagementModule.SelectRowLoginTable(user_name, passport);
+    if(passport.empty())
+    {
+        ui->labelWarning->setText("User does not exist.");
+    }
+    else
+    {
+        // TODO start implementing main window
+    }
+
+}
+
