@@ -22,6 +22,8 @@ public:
 
 private slots:
 
+    void on_pushButtonRegister_clicked();
+
 private:
     Ui::EntranceWindow *ui;
     AuthenticationModule m_AuthenticationModule;

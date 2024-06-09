@@ -32,6 +32,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(UIModule
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        UIModule/registerwindow.h UIModule/registerwindow.cpp UIModule/registerwindow.ui
     )
 endif()
 
