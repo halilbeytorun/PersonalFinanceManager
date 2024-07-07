@@ -18,9 +18,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        UIModule/entrancewindow.cpp
-        UIModule/entrancewindow.h
-        UIModule/entrancewindow.ui
+
+
+
         AuthenticationModule/AuthenticationModule.h
         AuthenticationModule/AuthenticationModule.cpp
         DataManagementModule/DataManagementModule.h
@@ -32,7 +32,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(UIModule
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        UIModule/registerwindow.h UIModule/registerwindow.cpp UIModule/registerwindow.ui
+
+
+        UIModule/stackedwindows.h UIModule/stackedwindows.cpp UIModule/stackedwindows.ui
+
+
+
     )
 endif()
 

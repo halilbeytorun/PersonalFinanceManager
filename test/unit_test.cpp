@@ -23,7 +23,7 @@ TEST_F(ProxyClient, DataManagementModuleTest)
   return_code = test.CreateLoginTable();
   ASSERT_EQ(return_code, SQLITE_OK);
 
-  // todo handle more than once insert case..
+  // todo handle more than once insert case.. TODO
   std::string user_name{"halil"};
   std::string passport{"123"};
   // return_code = test.InsertLoginTable(user_name, passport);
