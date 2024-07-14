@@ -20,7 +20,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(${UNIT_NAME}TestTarget ${test_source})
-
+target_include_directories(${UNIT_NAME}TestTarget PUBLIC ${PROJECT_SOURCE_DIR})
 
 target_link_libraries(
 ${UNIT_NAME}TestTarget
