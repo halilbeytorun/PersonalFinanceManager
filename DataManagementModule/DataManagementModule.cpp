@@ -1,4 +1,5 @@
 #include "DataManagementModule.h"
+#include "hutils.h"
 
 
 #include <sqlite3.h>
@@ -15,7 +16,7 @@ int DataManagementModule::InitializeDB(const std::string& db_loc)
     }
     else
     {
-        sqlite3_errmsg16(m_db);
+        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)));
         return return_code;
     }
 }
@@ -50,7 +51,7 @@ int DataManagementModule::CreateLoginTable()
         {
             sqlite3_free(error);
         }
-        sqlite3_errmsg16(m_db);
+        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)));
         return return_code;
     }
 }
@@ -74,7 +75,7 @@ int DataManagementModule::InsertLoginTable(const std::string& user_name, const s
         {
             sqlite3_free(error);
         }
-        sqlite3_errmsg16(m_db);
+        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)));        
         return return_code;
     }
 }
@@ -112,7 +113,7 @@ int DataManagementModule::SelectRowLoginTable(const std::string& user_name, std:
         {
             sqlite3_free(error);
         }
-        sqlite3_errmsg16(m_db);
+        sqlite3_errmsg(m_db);
         return return_code;
     }
 

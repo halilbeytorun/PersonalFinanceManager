@@ -1,6 +1,8 @@
 #include "stackedwindows.h"
 #include "ui_stackedwindows.h"
 
+#include <exception>
+
 StackedWindows::StackedWindows(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::StackedWindows)
@@ -8,6 +10,12 @@ StackedWindows::StackedWindows(QWidget *parent)
     , m_DataManagementModule()
 {
     ui->setupUi(this);
+    auto return_code = m_DataManagementModule.InitializeDB("./SQlitedatabase.db");
+    if(return_code != 0)
+        throw std::domain_error{"Database initialization error"};
+    return_code = m_DataManagementModule.CreateLoginTable();
+    if(return_code != 0)
+        throw std::domain_error{"Database table creation error"};
 }
 
 StackedWindows::~StackedWindows()
