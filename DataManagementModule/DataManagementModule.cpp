@@ -56,10 +56,17 @@ int DataManagementModule::CreateLoginTable()
     }
 }
 
-int DataManagementModule::InsertLoginTable(const std::string& user_name, const std::string& passport)
+int DataManagementModule::InsertLoginTable(const std::string& user_name, const std::string& passport, bool do_nothing_if_exists)
 {
-    // INSERT INTO users (username, passport) VALUES ('your_username', 'your_passport');
-    std::string sql{"INSERT INTO users (username, passport) VALUES ('" + user_name + "', '" + passport + "');"};
+    std::string sql{};
+    if(do_nothing_if_exists)
+    {
+        sql = std::string{"INSERT INTO users (username, passport) VALUES ('" + user_name + "', '" + passport + "') ON CONFLICT (username) DO NOTHING;"};
+    }
+    else
+    {
+        sql = std::string{"INSERT INTO users (username, passport) VALUES ('" + user_name + "', '" + passport + "');"};
+    }
 
     char* error{};
     int return_code{};
@@ -85,8 +92,8 @@ int DataManagementModule::SelectRowLoginTable(const std::string& user_name, std:
     // SELECT username, passport FROM users WHERE username = 'your_username';
     std::string sql{"SELECT username, passport FROM users WHERE username = '" + user_name + "';"};
 
-    auto callback = [] (void * passport, int argc, char ** colmn_number, char ** colmn_name) { 
-        static_cast<std::string*>(passport)->operator=(colmn_number[1]);
+    auto callback = [] (void * sent_passport, int argc, char ** colmn_number, char ** colmn_name) { 
+        static_cast<std::string*>(sent_passport)->operator=(colmn_number[1]);
         for(int i = 0; i < argc; i++)
         {
             std::cout << colmn_number[i] << " ";
@@ -97,7 +104,8 @@ int DataManagementModule::SelectRowLoginTable(const std::string& user_name, std:
             std::cout << colmn_name[i] << " ";
         }
         std::cout << "\n";
-        return 0;};
+        return 0;
+        };
 
     char* error{};
     int return_code{};
@@ -113,7 +121,7 @@ int DataManagementModule::SelectRowLoginTable(const std::string& user_name, std:
         {
             sqlite3_free(error);
         }
-        sqlite3_errmsg(m_db);
+        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)));        
         return return_code;
     }
 

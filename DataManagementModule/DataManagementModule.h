@@ -12,7 +12,7 @@ class DataManagementModule
 public:
     int InitializeDB(const std::string&);
     int CreateLoginTable();
-    int InsertLoginTable(const std::string& user_name, const std::string& passport);
+    int InsertLoginTable(const std::string& user_name, const std::string& passport, bool do_nothing_if_exists = false);
     int SelectRowLoginTable(const std::string& user_name, std::string& passport);
     void InsertQuery();
     ~DataManagementModule();
