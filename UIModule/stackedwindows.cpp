@@ -3,6 +3,7 @@
 
 #include <exception>
 
+
 enum class pageNumbers : int
 {
     EntrancePage,
@@ -33,6 +34,15 @@ StackedWindows::StackedWindows(QWidget *parent)
    ui->stackedWidget->resize(RegisterPageSize);
    this->resize(RegisterPageSize);
    ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::EntrancePage));
+
+    QPalette pal = QPalette();
+
+    // set black background
+    // Qt::black / "#000000" / "black"
+    pal.setColor(QPalette::Window, Qt::cyan);
+
+    this->setAutoFillBackground(true); 
+    this->setPalette(pal);
 }
 
 StackedWindows::~StackedWindows()
@@ -97,5 +107,11 @@ void StackedWindows::on_pushButtonEPOk_clicked()
     {
         ui->labelEPWarning->setText("Wrong passport!");
     }
+}
+
+
+void StackedWindows::on_pushButtonRPCancel_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::EntrancePage));
 }
 

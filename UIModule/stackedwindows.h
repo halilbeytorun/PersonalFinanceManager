@@ -24,6 +24,8 @@ private slots:
 
     void on_pushButtonEPOk_clicked();
 
+    void on_pushButtonRPCancel_clicked();
+
 private:
     Ui::StackedWindows *ui;
     AuthenticationModule m_AuthenticationModule;
