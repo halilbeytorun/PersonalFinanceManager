@@ -10,6 +10,11 @@ enum class pageNumbers : int
     MainPage
 };
 
+namespace
+{
+    QSize RegisterPageSize = QSize{611, 301};
+    QSize MainPageSize = QSize{1103, 633};
+}
 
 StackedWindows::StackedWindows(QWidget *parent)
     : QWidget(parent)
@@ -24,6 +29,10 @@ StackedWindows::StackedWindows(QWidget *parent)
     return_code = m_DataManagementModule.CreateLoginTable();
     if(return_code != 0)
         throw std::domain_error{"Database table creation error"};
+   
+   ui->stackedWidget->resize(RegisterPageSize);
+   this->resize(RegisterPageSize);
+   ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::EntrancePage));
 }
 
 StackedWindows::~StackedWindows()
@@ -77,6 +86,8 @@ void StackedWindows::on_pushButtonEPOk_clicked()
     if(ui->lineEditEPPassword->text().toStdString() == actual_passport && std::string{} != actual_passport)
     {
         ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::MainPage));
+        ui->stackedWidget->resize(MainPageSize);
+        this->resize(MainPageSize);
     }
     else if(std::string{} == actual_passport)
     {
