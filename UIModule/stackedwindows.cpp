@@ -23,7 +23,7 @@ StackedWindows::StackedWindows(QWidget *parent)
     , m_DataManagementModule()
 {
     ui->setupUi(this);
-    auto return_code = m_DataManagementModule.InitializeDB("./SQlitedatabase.db");
+    auto return_code = m_DataManagementModule.InitializeDB("/home/halil/workspace/PersonalFinanceManager/SQlitedatabase.db");
     if(return_code != 0)
         throw std::domain_error{"Database initialization error"};
     return_code = m_DataManagementModule.CreateLoginTable();

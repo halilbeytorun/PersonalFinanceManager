@@ -21,7 +21,7 @@ protected:
 
 TEST_F(ProxyClient, DataManagementModuleTest)
 {
-  std::string test_db_name{"./test.db"};
+  std::string test_db_name{"/home/halil/workspace/PersonalFinanceManager/test.db"};
   DataManagementModule test;
   int return_code{};
   return_code = test.InitializeDB(test_db_name);
