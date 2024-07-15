@@ -16,7 +16,7 @@ int DataManagementModule::InitializeDB(const std::string& db_loc)
     }
     else
     {
-        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)));
+        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)), " return code:", return_code);
         return return_code;
     }
 }
@@ -51,7 +51,7 @@ int DataManagementModule::CreateLoginTable()
         {
             sqlite3_free(error);
         }
-        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)));
+        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)), " return code:", return_code);
         return return_code;
     }
 }
@@ -82,7 +82,7 @@ int DataManagementModule::InsertLoginTable(const std::string& user_name, const s
         {
             sqlite3_free(error);
         }
-        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)));        
+        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)), " return code:", return_code);
         return return_code;
     }
 }
@@ -121,7 +121,7 @@ int DataManagementModule::SelectRowLoginTable(const std::string& user_name, std:
         {
             sqlite3_free(error);
         }
-        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)));        
+        Logger(static_cast<const char*>(sqlite3_errmsg(m_db)), " return code:", return_code);
         return return_code;
     }
 
