@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>PersonalFinanceManager</string>
   </property>
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
@@ -224,8 +224,19 @@
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="MainPage"/>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEditRPUserName</tabstop>
+  <tabstop>lineEditRPPassword</tabstop>
+  <tabstop>lineEditRPPasswordAgain</tabstop>
+  <tabstop>pushButtonRPRegister</tabstop>
+  <tabstop>lineEditEPUserName</tabstop>
+  <tabstop>lineEditEPPassword</tabstop>
+  <tabstop>pushButtonEPOk</tabstop>
+  <tabstop>pushButtonEPRegister</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

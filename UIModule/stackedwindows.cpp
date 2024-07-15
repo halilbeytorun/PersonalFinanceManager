@@ -3,6 +3,14 @@
 
 #include <exception>
 
+enum class pageNumbers : int
+{
+    EntrancePage,
+    RegisterPage,
+    MainPage
+};
+
+
 StackedWindows::StackedWindows(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::StackedWindows)
@@ -25,7 +33,7 @@ StackedWindows::~StackedWindows()
 
 void StackedWindows::on_pushButtonEPRegister_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::RegisterPage));
 }
 
 
@@ -38,7 +46,7 @@ void StackedWindows::on_pushButtonRPRegister_clicked()
             ui->lineEditRPPassword->text().toStdString() );
             return_code == 0 )
             {
-                ui->stackedWidget->setCurrentIndex(0);
+                ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::EntrancePage));
             }
             else
             {
@@ -60,29 +68,23 @@ void StackedWindows::on_pushButtonRPRegister_clicked()
 }
 
 
-// TODO
-// void MainWindow::on_pushButtonOk_clicked()
-// {
-//     // const std::string user_name = ui->lineEditUserName->text().toStdString();
-//     // std::string passport{};
-//     // m_DataManagementModule.SelectRowLoginTable(user_name, passport);
-//     // if(passport.empty())
-//     // {
-//     //     ui->labelWarning->setText("User does not exist.");
-//     // }
-//     // else
-//     // {
-//     //     MainWindow mainWindow{};
-//     //     mainWindow.resize(this->size());
-//     //     mainWindow.setGeometry(this->geometry());
-//     //     mainWindow.setModal(true);
-//     //     mainWindow.show();
-//     //     this->hide();
-//     //     mainWindow.exec();
-//     //     this->show();
-//     // }
-
-// }
 
 
+void StackedWindows::on_pushButtonEPOk_clicked()
+{
+    std::string actual_passport{};
+    m_DataManagementModule.SelectRowLoginTable(ui->lineEditEPUserName->text().toStdString(), actual_passport);
+    if(ui->lineEditEPPassword->text().toStdString() == actual_passport && std::string{} != actual_passport)
+    {
+        ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::MainPage));
+    }
+    else if(std::string{} == actual_passport)
+    {
+        ui->labelEPWarning->setText("Wrong user name");
+    }
+    else
+    {
+        ui->labelEPWarning->setText("Wrong passport!");
+    }
+}
 
