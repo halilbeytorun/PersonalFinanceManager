@@ -34,9 +34,20 @@ namespace impl
     template<typename T, std::size_t n>
     std::enable_if_t<!is_stl_container<T>::value> LoggerImpl(const T (&a)[n])
     {
-        for(int i = 0; i < n; i++)
+        if constexpr(std::is_same<T, char>::value)
         {
-            std::cout << a[i] << " ";
+            for(int i = 0; i < n; i++)
+            {
+                std::cout << a[i];
+            }
+            std::cout << " ";
+        }
+        else
+        {
+            for(int i = 0; i < n; i++)
+            {
+                std::cout << a[i] << " ";
+            }            
         }
     }
 
