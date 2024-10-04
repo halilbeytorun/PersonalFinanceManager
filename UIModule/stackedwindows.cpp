@@ -48,10 +48,8 @@ void StackedWindows::on_pushButtonEPRegister_clicked()
     ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::RegisterPage));
 }
 
-
 void StackedWindows::on_pushButtonRPRegister_clicked()
 {
-
         if(ui->lineEditRPUserName->text().isEmpty())
         {
             ui->labelRPWarning->setText("Enter a user name");
@@ -77,14 +75,11 @@ void StackedWindows::on_pushButtonRPRegister_clicked()
         }
 }
 
-
-
-
 void StackedWindows::on_pushButtonEPOk_clicked()
 {
     std::string actual_passport{};
     control_module_.pushButtonEPOk_clicked(ui->lineEditEPUserName->text().toStdString(), actual_passport);
-    
+
     if(ui->lineEditEPPassword->text().toStdString() == actual_passport && std::string{} != actual_passport)
     {
         ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::MainPage));
@@ -101,9 +96,7 @@ void StackedWindows::on_pushButtonEPOk_clicked()
     }
 }
 
-
 void StackedWindows::on_pushButtonRPCancel_clicked()
 {
     ui->stackedWidget->setCurrentIndex(static_cast<int>(pageNumbers::EntrancePage));
 }
-

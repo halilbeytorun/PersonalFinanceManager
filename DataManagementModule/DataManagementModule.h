@@ -5,10 +5,8 @@
 
 
 struct sqlite3;
-// TODO: This implementation should not know the Login Table or any other user related information!
-// Move user related stuff into AuthenticationModule and write unit tests for DataManagementModule independent from the user table and so on.
 
-/// @brief ReturnCode of DataManagement Module (Or entire code base?)
+/// @brief ReturnCode of DataManagement Module
 enum class ReturnCode
 {
     Ok,
@@ -36,14 +34,11 @@ public:
     ReturnCode InsertIntoLoginTable(const std::string& table_name, const std::string& user_name, const std::string& passport, bool do_nothing_if_exists = false);
     ReturnCode SelectRowFromLoginTable(const std::string& table_name, const std::string& user_name, std::string& passport);
     ReturnCode DeleteFromLoginTable(const std::string& table_name, const std::string& user_name);
-    // void InsertQuery();
-
     ReturnCode TableExists(const std::string& table_name);
-
     ~DataManagementModule();
 private:
     sqlite3* m_db_{};
     void PrintError(const sqlite3* m_db, int return_code);
 };
 
-#endif
+#endif //DataManagementModule_H

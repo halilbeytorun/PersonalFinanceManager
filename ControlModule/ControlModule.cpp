@@ -1,8 +1,5 @@
 #include "ControlModule.h"
-
-
 #include <string>
-
 
 ControlModule::ControlModule(int& argc, char *argv[]) : 
                             application_{argc, argv},
@@ -22,7 +19,6 @@ void ControlModule::Init()
         throw std::domain_error{"Database table creation error"};
 }
 
-
 void ControlModule::run()
 {
     stacked_windows_.show();
@@ -38,7 +34,11 @@ bool ControlModule::pushButtonRPRegister_clicked(const std::string& user_name, c
 bool ControlModule::pushButtonEPOk_clicked(const std::string& user_name, std::string& passport)
 {
     auto return_code = data_management_module_.SelectRowFromLoginTable(authentication_module_.login_table_name(), user_name, passport);
-    return return_code == ReturnCode::Ok;
+    if(ReturnCode::Ok == return_code)
+    {
+        authentication_module_.set_user_name_passport({user_name, passport});
+        // TODO should also get user related data from the db if needed. Will be clear in the future.
+        return true;
+    }
+    return false;
 }
-
-
