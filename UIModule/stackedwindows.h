@@ -2,8 +2,8 @@
 #define STACKEDWINDOWS_H
 
 #include <QWidget>
-#include "AuthenticationModule/AuthenticationModule.h"
-#include "DataManagementModule/DataManagementModule.h"
+
+class ControlModule;
 
 namespace Ui {
 class StackedWindows;
@@ -14,7 +14,7 @@ class StackedWindows : public QWidget
     Q_OBJECT
 
 public:
-    explicit StackedWindows(QWidget *parent = nullptr);
+    explicit StackedWindows(ControlModule& control_module, QWidget *parent = nullptr);
     ~StackedWindows();
 
 private slots:
@@ -28,8 +28,7 @@ private slots:
 
 private:
     Ui::StackedWindows *ui;
-    AuthenticationModule m_AuthenticationModule;
-    DataManagementModule m_DataManagementModule;
+    ControlModule& control_module_;
 };
 
 #endif // STACKEDWINDOWS_H

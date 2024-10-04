@@ -1,14 +1,14 @@
-#include "UIModule/stackedwindows.h"
-#include "AuthenticationModule/AuthenticationModule.h"
-
-#include <QApplication>
-#include <QVBoxLayout>
+#include "ControlModule/ControlModule.h"
 
 int main(int argc, char *argv[])
 {
 
-     QApplication a(argc, argv);
-     StackedWindows w;
-     w.show();
-     return a.exec();
+     // QApplication a(argc, argv);
+     // StackedWindows w;
+     // w.show();
+     // return a.exec();
+
+     ControlModule control_module(argc, argv);
+     control_module.Init();
+     control_module.run();
 }

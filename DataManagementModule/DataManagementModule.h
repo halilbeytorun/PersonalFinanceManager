@@ -5,21 +5,45 @@
 
 
 struct sqlite3;
+// TODO: This implementation should not know the Login Table or any other user related information!
+// Move user related stuff into AuthenticationModule and write unit tests for DataManagementModule independent from the user table and so on.
+
+/// @brief ReturnCode of DataManagement Module (Or entire code base?)
+enum class ReturnCode
+{
+    Ok,
+    DataBaseCreationError,
+    TableCreationError,
+    TableDeletionError,
+    TableCheckError,
+    TableDoesNotExist,
+    TableExists,
+    StatementPreparationError,
+    BindingError,
+    ExecutionError,
+    FinalizationError,
+    RowNotFound,   
+    Error
+};
 
 /// @brief Deals with the storage and retrieval of financial data, user data. Uses SQLite database to store related data.
 class DataManagementModule
 {
 public:
-    int InitializeDB(const std::string&);
-    int CreateLoginTable();
-    int InsertLoginTable(const std::string& user_name, const std::string& passport, bool do_nothing_if_exists = false);
-    int SelectRowLoginTable(const std::string& user_name, std::string& passport);
-    void InsertQuery();
+    ReturnCode InitializeDB(const std::string&);
+    ReturnCode CreateLoginTable(const std::string& table_name);
+    ReturnCode DeleteLoginTable(const std::string& table_name);
+    ReturnCode InsertIntoLoginTable(const std::string& table_name, const std::string& user_name, const std::string& passport, bool do_nothing_if_exists = false);
+    ReturnCode SelectRowFromLoginTable(const std::string& table_name, const std::string& user_name, std::string& passport);
+    ReturnCode DeleteFromLoginTable(const std::string& table_name, const std::string& user_name);
+    // void InsertQuery();
+
+    ReturnCode TableExists(const std::string& table_name);
+
     ~DataManagementModule();
-
 private:
-    sqlite3* m_db{};
-
+    sqlite3* m_db_{};
+    void PrintError(const sqlite3* m_db, int return_code);
 };
 
 #endif

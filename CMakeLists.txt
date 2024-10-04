@@ -19,9 +19,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-
-
-
+        ControlModule/ControlModule.h
+        ControlModule/ControlModule.cpp
         AuthenticationModule/AuthenticationModule.h
         AuthenticationModule/AuthenticationModule.cpp
         DataManagementModule/DataManagementModule.h
@@ -33,12 +32,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(${UNIT_NAME}
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-
-
         UIModule/stackedwindows.h UIModule/stackedwindows.cpp UIModule/stackedwindows.ui
-
-
-
     )
 endif()
 
