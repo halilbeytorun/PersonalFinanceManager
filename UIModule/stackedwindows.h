@@ -2,6 +2,9 @@
 #define STACKEDWINDOWS_H
 
 #include <QWidget>
+#include <QtCharts>
+#include <QChartView>
+#include <QPieSeries>
 
 class ControlModule;
 

@@ -240,9 +240,27 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="MainPage"/>
+   <widget class="QWidget" name="MainPage">
+    <widget class="QChartView" name="graphicsView">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>40</y>
+       <width>731</width>
+       <height>411</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">QtCharts.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>lineEditRPUserName</tabstop>
   <tabstop>lineEditRPPassword</tabstop>

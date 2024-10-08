@@ -14,6 +14,7 @@ set(CMAKE_PREFIX_PATH "/home/halil/Qt/6.7.0/gcc_64/lib/cmake")
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Charts)
 #find_package(SQLite3 REQUIRED)
 
 
@@ -25,6 +26,10 @@ set(PROJECT_SOURCES
         AuthenticationModule/AuthenticationModule.cpp
         DataManagementModule/DataManagementModule.h
         DataManagementModule/DataManagementModule.cpp
+        UIModule/DonutBreakdownChart.h
+        UIModule/DonutBreakdownChart.cpp
+        UIModule/DonutBreakdownMainSlice.h
+        UIModule/DonutBreakdownMainSlice.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -36,7 +41,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     )
 endif()
 
-target_link_libraries(${UNIT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${UNIT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Charts)
 target_link_libraries(${UNIT_NAME} PUBLIC sqlite3)
 target_include_directories(${UNIT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 
