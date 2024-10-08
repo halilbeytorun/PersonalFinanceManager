@@ -1,9 +1,8 @@
 # Big ToDos
-* Implement main window, a basic design beforehand is needed.
-* sqlite3 supported data?
-* update the tests to be more general, parametrized tests or typed test somehow would be perfect for different types and different columns!
-* update unit tests, read google test stuff. Write better data base unit tests. Update DataManagementModule if necessary!
-* Improve sqlite implementation on the road when there is need.
+* implement extra tables for the User info, since a complex stl like type is needed for that, the database table design needs thinking.
+    * DataBaseModule update
+    * Unit test update.
+    * Authentication module and UIModule update.
 
 ## Small todos:
 * provide a better way for database path
