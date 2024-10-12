@@ -5,6 +5,7 @@
 #include <utility>
 #include <map>
 #include <vector>
+#include <tuple>
 
 class DataManagementModule;
 class AuthenticationModule
@@ -19,7 +20,10 @@ public:
     struct UserInfo
     {
         double monthlyIncome{};
-        std::map<std::pair<std::string, double>, std::vector<std::pair<std::string, double>>> spent_category;
+        /// @brief Spent category, strongi every category (including also UnUsed category by default). The value left inside of the category 
+        /// and inside categories are also designed to be stored
+        std::map<std::string, std::tuple<double, double, std::map<std::string,double>>> spent_category;
+        // std::map<std::pair<std::string, double>, std::vector<std::pair<std::string, double>>> spent_category;
     };
 private:
     DataManagementModule& m_DataManagementModule;

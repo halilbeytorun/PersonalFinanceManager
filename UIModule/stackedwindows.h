@@ -24,7 +24,13 @@ private slots:
     void on_pushButtonRPRegister_clicked();
     void on_pushButtonEPOk_clicked();
     void on_pushButtonRPCancel_clicked();
+    void on_pushButtonMPSpendingCategoryOk_clicked();
+
+    void on_pushButtonMPMonthlyRevanueOk_clicked();
+
 private:
+    void DisableMP_SpendingCategory();
+    void EnableMP_SpendingCategory();
     Ui::StackedWindows *ui;
     ControlModule& control_module_;
 };

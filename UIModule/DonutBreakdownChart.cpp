@@ -14,7 +14,7 @@ DonutBreakdownChart::DonutBreakdownChart(QGraphicsItem *parent, Qt::WindowFlags 
 
 void DonutBreakdownChart::addBreakdownSeries(QPieSeries *breakdownSeries, QColor color)
 {
-    QFont font("Arial", 8);
+    const QFont font("Arial", 8);
 
     // add breakdown series as a slice to center pie
     auto mainSlice = new DonutBreakdownMainSlice(breakdownSeries, this->parent());
