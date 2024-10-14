@@ -28,7 +28,7 @@ void DonutBreakdownChart::addBreakdownSeries(QPieSeries *breakdownSeries, QColor
     mainSlice->setBrush(color);
     mainSlice->setLabelVisible();
     mainSlice->setLabelColor(Qt::white);
-    mainSlice->setLabelPosition(QPieSlice::LabelInsideHorizontal);
+    mainSlice->setLabelPosition(QPieSlice::LabelInsideNormal);
     mainSlice->setLabelFont(font);
 
     // position and customize the breakdown series
@@ -78,9 +78,9 @@ void DonutBreakdownChart::updateLegendMarkers()
                 pieMarker->setVisible(false);
             } else {
                 // modify markers from breakdown series
-                pieMarker->setLabel(QString("%1 %2%")
+                pieMarker->setLabel(QString("%1: %2")
                                     .arg(pieMarker->slice()->label())
-                                    .arg(pieMarker->slice()->percentage() * 100, 0, 'f', 2));
+                                    .arg(pieMarker->slice()->value(), 0, 'f', 2));
                 pieMarker->setFont(QFont("Arial", 8));
             }
         }
