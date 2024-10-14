@@ -49,11 +49,11 @@ namespace
     //     darkYellow,
     //     transparent
     // };
-        static Qt::GlobalColor color_counter{Qt::lightGray};
+        static Qt::GlobalColor color_counter{Qt::yellow};
         color_counter = (Qt::GlobalColor) (color_counter + 1);
         if(Qt::transparent == color_counter)
         {
-            color_counter = Qt::darkGray;
+            color_counter = Qt::yellow;
         }
         return color_counter;
     }
@@ -134,10 +134,7 @@ void StackedWindows::on_pushButtonEPOk_clicked()
 
         // TODO: Database data getting step must be here.
 
-        // TODO: create a function for that later.
-        // TODO: category selection must be not touchable before having a monthly revanue
         DisableMP_SpendingCategory();
-
     }
     else if(false == return_val)
     {
@@ -165,10 +162,19 @@ void StackedWindows::on_pushButtonMPSpendingCategoryOk_clicked()
         ui->labelMPSpendingCategoryWarning->setText("Please enter valid number");
         return;
     }
-
+    if(category_value <= 0)
+    {
+        ui->labelMPSpendingCategoryWarning->setText("Please enter valid number");
+        return;        
+    }
     if(category_value > std::get<0>(temporary_user_info.spent_category[unused_name]))
     {
         ui->labelMPSpendingCategoryWarning->setText("The number is bigger than unused area!");
+        return;
+    }
+    if(temporary_user_info.spent_category.find(category_name) != temporary_user_info.spent_category.end())
+    {
+        ui->labelMPSpendingCategoryWarning->setText("The category already exists!");
         return;
     }
 
@@ -181,18 +187,25 @@ void StackedWindows::on_pushButtonMPSpendingCategoryOk_clicked()
     std::get<1>(temporary_user_info.spent_category[unused_name]) = std::get<0>(temporary_user_info.spent_category[unused_name]);
 
 
-    // TODO: This must be better somehow
+    // Update unused Series and slice
     auto donutBreakdown = static_cast<DonutBreakdownChart*>(ui->graphicsView->chart());
-    static_cast<QPieSeries*>(donutBreakdown->series().first())->slices().first()->setValue(std::get<0>(temporary_user_info.spent_category[unused_name]));
-    static_cast<DonutBreakdownMainSlice*>(static_cast<QPieSeries*>(donutBreakdown->series().first())->slices().first())->breakdownSeries()->slices().first()->setValue(std::get<0>(temporary_user_info.spent_category[unused_name]));
-    donutBreakdown->recalculateAngles();
-    donutBreakdown->updateLegendMarkers();
-    
+    donutBreakdown->mainSeries()->slices().first()->setValue(std::get<0>(temporary_user_info.spent_category[unused_name]));
+    donutBreakdown->unusedMoneySeries()->slices().first()->setValue(std::get<0>(temporary_user_info.spent_category[unused_name]));
+    // TODO double eq
+    if(std::get<0>(temporary_user_info.spent_category[unused_name]) == 0.)
+    {
+        donutBreakdown->mainSeries()->slices().first()->setLabelVisible(false);
+        donutBreakdown->unusedMoneySeries()->slices().first()->setLabelVisible(false);
+    }
 
+    // Create the series.
     auto series1 = new QPieSeries;
     series1->setName(QString::fromStdString(category_name));
     series1->append(QString::fromStdString(category_name), category_value);
     donutBreakdown->addBreakdownSeries(series1, getNextColorForNewSeries());
+
+    donutBreakdown->recalculateAngles();
+    donutBreakdown->updateLegendMarkers();
 }
 
 
@@ -208,20 +221,22 @@ void StackedWindows::on_pushButtonMPMonthlyRevanueOk_clicked()
     ui->labelMPMonthlyRevanueWarning->setText("");
 
     // TODO create function for category addition purpose    
+    temporary_user_info = {};   // reset the value before.
     temporary_user_info.monthlyIncome = monthly_revanue;
     temporary_user_info.spent_category[unused_name] = std::tuple<double, double, std::map<std::string,double>>{monthly_revanue, monthly_revanue, {}};
-
-
 
     auto donutBreakdown = new DonutBreakdownChart(nullptr, Qt::WindowFlags::fromInt(0) );
     donutBreakdown->setAnimationOptions(QChart::AllAnimations);
     donutBreakdown->legend()->setAlignment(Qt::AlignRight);
+    
     ui->graphicsView->setChart(donutBreakdown);
 
     auto series_unused_money = new QPieSeries;
     series_unused_money->setName(QString::fromStdString(unused_name));
     series_unused_money->append(QString::fromStdString(unused_name), monthly_revanue);
+    donutBreakdown->setUnusedMoneySeries(series_unused_money);
     donutBreakdown->addBreakdownSeries(series_unused_money, getNextColorForNewSeries());
+    
 
     ui->graphicsView->chart()->setTitle("Monthly Revanue spending is: " + QString::number(monthly_revanue));
     EnableMP_SpendingCategory();
@@ -247,5 +262,41 @@ void StackedWindows::EnableMP_SpendingCategory()
     ui->labelMPSpendingCategoryValue->setEnabled(true);
     ui->labelMPSpendingCategoryWarning->setEnabled(true);    
     ui->pushButtonMPSpendingCategoryOk->setEnabled(true);
+}
+
+
+void StackedWindows::on_pushButtonMPRemoveSpendingCategoryOk_clicked()
+{
+    const std::string remove_category = ui->lineEditMPRemoveSpendingCategoryName->text().toStdString();
+    if(temporary_user_info.spent_category.find(remove_category) == temporary_user_info.spent_category.end())
+    {
+        ui->labelMPRemoveSpendingCategoryWarning->setText("Category does not exist!");
+        return;
+    }
+    if(remove_category == unused_name)
+    {
+        ui->labelMPRemoveSpendingCategoryWarning->setText("Cannot remove unused area!");
+        return;
+    }
+    ui->labelMPRemoveSpendingCategoryWarning->setText("");
+
+    // Update unused area
+
+    std::get<0>(temporary_user_info.spent_category[unused_name]) = std::get<0>(temporary_user_info.spent_category[unused_name]) + std::get<0>(temporary_user_info.spent_category[remove_category]);
+    std::get<1>(temporary_user_info.spent_category[unused_name]) = std::get<0>(temporary_user_info.spent_category[unused_name]);
+
+    // Update unused Series and slice
+    auto donutBreakdown = static_cast<DonutBreakdownChart*>(ui->graphicsView->chart());
+    donutBreakdown->mainSeries()->slices().first()->setValue(std::get<0>(temporary_user_info.spent_category[unused_name]));
+    donutBreakdown->unusedMoneySeries()->slices().first()->setValue(std::get<0>(temporary_user_info.spent_category[unused_name]));
+    donutBreakdown->mainSeries()->slices().first()->setLabelVisible(true);
+    donutBreakdown->unusedMoneySeries()->slices().first()->setLabelVisible(true);
+    
+    donutBreakdown->removeBreakdownSeries(remove_category);
+
+    donutBreakdown->recalculateAngles();
+    donutBreakdown->updateLegendMarkers();    
+
+    temporary_user_info.spent_category.erase(remove_category);
 }
 

@@ -2,12 +2,14 @@
 #include <UIModule/DonutBreakdownMainSlice.h>
 #include <QGraphicsItem>
 
+#include <exception>
 
 DonutBreakdownChart::DonutBreakdownChart(QGraphicsItem *parent, Qt::WindowFlags wFlags)
-    : QChart(QChart::ChartTypeCartesian, parent, wFlags)
+    : QChart(QChart::ChartTypeCartesian, parent, wFlags), m_unusedMoneySeries(nullptr)
 {
     // create the series for main center pie
     m_mainSeries = new QPieSeries;
+    m_mainSeries->setName("MAINSERIES_UNUSED_NAME");
     m_mainSeries->setPieSize(0.7);
     QChart::addSeries(m_mainSeries);
 }
@@ -71,7 +73,7 @@ void DonutBreakdownChart::updateLegendMarkers()
         const auto markers = legend()->markers(series);
         for (QLegendMarker *marker : markers) {
             auto pieMarker = qobject_cast<QPieLegendMarker *>(marker);
-            if (series == m_mainSeries) {
+            if (series == m_mainSeries || series == m_unusedMoneySeries) {
                 // hide markers from main series
                 pieMarker->setVisible(false);
             } else {
@@ -83,5 +85,36 @@ void DonutBreakdownChart::updateLegendMarkers()
             }
         }
     }
+}
+
+void DonutBreakdownChart::removeBreakdownSeries(const std::string& name)
+{   
+    if(name == m_unusedMoneySeries->name().toStdString()) // can't remove unusedMoneySeries
+        return;
+
+    auto iterSlices = m_mainSeries->slices().begin();
+    while(iterSlices != m_mainSeries->slices().end())
+    {
+        if(static_cast<DonutBreakdownMainSlice*>(*iterSlices)->name().toStdString() == name)
+        {
+            break;
+        }
+        iterSlices++;
+    }
+    if(iterSlices == m_mainSeries->slices().end())
+    {
+        throw std::domain_error{"Slice Not Found"};
+    }
+    
+    auto delete_target = static_cast<DonutBreakdownMainSlice*>((*iterSlices))->breakdownSeries();
+
+    // Slice is removed first to keep iterSlice valid, if series is deleted first, iterator can be invalid!
+    bool return_value = m_mainSeries->remove(*iterSlices);
+    QChart::removeSeries(delete_target);
+
+    if(false == return_value)
+        throw std::domain_error{"Cannot delete Slice"};
+    recalculateAngles();
+    updateLegendMarkers();
 }
 

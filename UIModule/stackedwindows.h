@@ -28,6 +28,8 @@ private slots:
 
     void on_pushButtonMPMonthlyRevanueOk_clicked();
 
+    void on_pushButtonMPRemoveSpendingCategoryOk_clicked();
+
 private:
     void DisableMP_SpendingCategory();
     void EnableMP_SpendingCategory();

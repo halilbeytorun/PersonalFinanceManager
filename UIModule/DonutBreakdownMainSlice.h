@@ -15,6 +15,11 @@ public:
     {
         m_name = name;
     }
+    QString name()
+    {
+        return m_name;
+    }
+    
     QPieSeries* breakdownSeries()
     {
         return m_breakdownSeries;
